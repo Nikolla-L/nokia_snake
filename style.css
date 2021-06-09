@@ -1,27 +1,110 @@
+:root{
+    --clr-neon: hsl(317 100% 54%);
+    --clr-bg: hsl(323 21% 16%);
+}
+
+
 body{
     display:flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     height:80vh;
+    font-family:sans-serif;
+    color:var(--clr-neon);
+    background-color: var(--clr-bg);
+}
+.start{
+    margin:50px auto;
+    font-size:2.5rem;
+    color: var(--clr-neon);
+    font-weight:bolder;
+    border:var(--clr-neon) 4px solid;
+    outline:none;
+    background-color: rgba(238, 130, 238, 0);
+    padding:.25em 1em;
+    border-radius:.25em;
+    text-shadow: 0 0 0.25em hsl(0 0% 100% / 0.35), 0 0 .45em currentColor;
+    box-shadow:inset 0 0 0.5em 0 var(--clr-neon), 0 0 0.5em 0 var(--clr-neon);
+    position:relative;
+    transition: background-color 100ms linear;
+}
+.start::before{
+    content:"";
+    position: absolute;
+    background-color: var(--clr-neon);
+    top:120%;
+    left:0;
+    width:100%;
+    height:100%;
+    transform:perspective(1em) rotateX(40deg) scale(1, 0.35);
+    filter: blur(1em);
+    opacity: 0.7;
+    pointer-events:none;
+}
+.start:hover{
+    background:var(--clr-neon);
+    color:var(--clr-bg);
+    text-shadow: none;
+}
+.start::after{
+    content: "";
+    position:absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    box-shadow: 0 0 2em .5em var(--clr-neon);
+    opacity: 0;
+    transition: opacity 100ms linear;
+}
+.start:hover::before{
+    opacity:1;
+}
+.start:hover::after{
+    opacity:1;
+}
+.score{
+    margin:50px 0 30px 0;
+    color:white;
+    font-size:30px;
+    text-shadow: 0 0 0.25em hsl(0 0% 100% / 0.35), 0 0 .45em currentColor;
 }
 .grid{
-    width:200px;
-    height:200px;
+    width:300px;
+    height:300px;
     display: flex;
     flex-wrap: wrap;
     border-style: solid;
+    box-shadow:inset 0 0 0.5em 0 var(--clr-neon), 0 0 0.5em 0 var(--clr-neon);
+    transition:box-shadow .5s;
 }
 
 .grid div{
-    width:20px;
-    height:20px;
+    width:30px;
+    height:30px;
 }
 
 .snake{
-    background-color: rgb(0, 0, 235);
+    background-color: aqua;
 }
 
 .apple{
-    background-color: rgb(255, 43, 255);
+    background-color: rgb(252, 223, 252);
+    box-shadow: 0 0 0.5em 0 #fff;
+}
+.grid div img{
+    background-color: aquamarine;
+    width:30px;
+    height:30px;
+    object-fit: cover;
+}
+.apple img{
+    width:30px;
+    height:30px;
+    object-fit: cover;
+}
+@keyframes hit{
+    0%{box-shadow:inset 0 0 0.5em 0 var(--clr-neon), 0 0 0.5em 0 var(--clr-neon);}
+    100%{box-shadow:inset 0 0 1em 0 white, 0 0 0.5em 0 white;}
 }
