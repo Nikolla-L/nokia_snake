@@ -19,12 +19,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
     let interval = 0;
 
     let btc = document.createElement('img');
-    btc.src = './images/btc.png';
+    btc.src = 'images/btc.png';
     function appleImg(){
         document.querySelector('.apple').appendChild(btc);
     }
     let musk = document.createElement('img');
-    musk.src = './images/musk.png';
+    musk.src = 'images/musk.png';
     function appendMusk(x){
         x.appendChild(musk);
     }
