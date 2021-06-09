@@ -1,9 +1,12 @@
 document.addEventListener('DOMContentLoaded', ()=>{
+    const grid = document.querySelector('.grid');
     const squares = document.querySelectorAll('.grid div');
     const scoreDisplay = document.querySelector('span');
     const startBtn = document.querySelector('.start');
     const eatAutio = document.querySelector('.eat');
     const loseAutio = document.querySelector('.lose');
+    const bgAudio = document.querySelector('.bg-audio');
+
 
     const width = 10;
     let currentIndex = 0;
@@ -15,8 +18,18 @@ document.addEventListener('DOMContentLoaded', ()=>{
     let intervalTime = 0;
     let interval = 0;
 
+    let btc = document.createElement('img');
+    btc.src = './images/btc.png';
+    function appleImg(){
+        document.querySelector('.apple').appendChild(btc);
+    }
+    let musk = document.createElement('img');
+    musk.src = './images/musk.png';
+    function appendMusk(x){
+        x.appendChild(musk);
+    }
     function startGame() {
-        document.querySelector('body').style.background = "white";
+        document.querySelector('body').style.background = "var(--clr-bg)";
         currentSnake.forEach(index => squares[index].classList.remove('snake'))
         squares[appleIndex].classList.remove('apple');
         clearInterval(interval);
@@ -27,8 +40,15 @@ document.addEventListener('DOMContentLoaded', ()=>{
         intervalTime = 800;
         currentSnake = [2, 1, 0];
         currentIndex = 0;
-        currentSnake.forEach(index => squares[index].classList.add('snake'));
+        currentSnake.forEach(index => {
+                squares[index].classList.add('snake');
+            }
+        );
+        grid.style.animation = "none";
         interval = setInterval(moveOutcomes, intervalTime);
+        bgAudio.play();
+        bgAudio.volume = .1;
+        bgAudio.loop = true;
     }
 
     function moveOutcomes() {
@@ -39,8 +59,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
             (currentSnake[0] - width < 0 && direction === -width) || //თუ დაბლა ურტყამს 
             squares[currentSnake[0] + direction].classList.contains('snake') //თუ თავის თავს ეტენება
         ) {
+            bgAudio.pause();
             loseAutio.play();
-            document.querySelector('body').style.background = "red";
+            grid.style.animation ="hit 1s infinite linear";
             return clearInterval(interval);
         }
         const tail = currentSnake.pop();
@@ -54,12 +75,18 @@ document.addEventListener('DOMContentLoaded', ()=>{
             currentSnake.push(tail);
             randomApple();
             score++;
-            scoreDisplay.textContent = score;
+            if(bgAudio.volume >=1){
+                bgAudio = 3;
+            }else{
+                bgAudio.volume += .05;
+            }
+            scoreDisplay.textContent = " " + score;
             clearInterval(interval);
             intervalTime = intervalTime*speed;
             interval = setInterval(moveOutcomes, intervalTime);
         }
         squares[currentSnake[0]].classList.add('snake');
+        appendMusk(squares[currentSnake[0]]);
     }
 
     function randomApple() {
@@ -67,6 +94,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
             appleIndex = Math.floor(Math.random() * squares.length);
         } while(squares[appleIndex].classList.contains('snake'));
         squares[appleIndex].classList.add('apple');
+        appleImg();
     }
 
     function control(e) {
